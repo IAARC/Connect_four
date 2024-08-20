@@ -28,4 +28,21 @@ class Board
   def full?
     @table[0].all? { |item| !item.nil? }
   end
+
+  def print_board
+    (1..@table[0].size).each { |i| print "  #{i}  " }
+    puts
+
+    puts '-' * (@table[0].size * 5)
+
+    @table.each do |row|
+      row.each do |cell|
+        print "[ #{cell.nil? ? ' ' : cell} ]"
+      end
+      puts
+    end
+  end
 end
+
+board = Board.new
+board.print_board
