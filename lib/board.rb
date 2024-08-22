@@ -42,7 +42,64 @@ class Board
       puts
     end
   end
-end
 
-board = Board.new
-board.print_board
+  def check_four_in_row(piece)
+    win = false
+    @table.each do |row|
+      win = true if row.each_cons(4).any? { |four_in_row| four_in_row.all? { |cell| cell == piece } }
+    end
+    win
+  end
+
+  def check_four_in_column(piece)
+    transpose_table = @table.transpose
+    win = false
+    transpose_table.each do |column|
+      win = true if column.each_cons(4).any? { |four_in_column| four_in_column.all? { |cell| cell == piece } }
+    end
+    win
+  end
+
+  def check_four_in_diagonal(piece)
+    diagonals = find_diagonals
+    anti_diagonals = find_anti_diagonals
+    win = false
+    diagonals.each { |diagonal| win = true if diagonal.all? { |cell| cell == piece } }
+    anti_diagonals.each { |diagonal| win = true if diagonal.all? { |cell| cell == piece } }
+    win
+  end
+
+  def find_diagonals
+    diagonals = []
+
+    (0...6).each do |r|
+      (0...7).each do |c|
+        next unless r + 4 <= 6 && c + 4 <= 7
+
+        diagonal = []
+        4.times do |i|
+          diagonal << @table[r + i][c + i]
+        end
+        diagonals << diagonal if diagonal.size == 4
+      end
+    end
+    diagonals
+  end
+
+  def find_anti_diagonals
+    diagonals = []
+    (0...6).each do |r|
+      (0...7).each do |c|
+        next unless r + 4 <= 6 && c - 4 + 1 >= 0
+
+        diagonal = []
+        4.times do |i|
+          diagonal << @table[r + i][c - i]
+        end
+        diagonals << diagonal if diagonal.size == 4
+      end
+    end
+
+    diagonals
+  end
+end

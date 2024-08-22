@@ -11,7 +11,8 @@ class Player
   def select_column(board)
     puts 'Select a column!'
     board.print_board
-    column = get.chomp until column =~ /[0-6]/
+    column = gets.chomp until column =~ /[0-6]/
+    column.to_i - 1
   end
 
   def win
@@ -26,5 +27,10 @@ class Player
              else
                "\u26AB"
              end
+  end
+
+  def turn(board)
+    column_index = select_column(board)
+    board.insert(column_index, @piece)
   end
 end

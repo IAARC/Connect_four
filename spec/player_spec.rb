@@ -36,4 +36,15 @@ describe Player do
       expect(player.piece).to eql("\u26AB")
     end
   end
+
+  describe '#turn' do
+    let(:board) { Board.new }
+    let(:player)  { Player.new('andres', "\u26AA") }
+
+    it 'runs a turn of the game and updates the board' do
+      allow(player).to receive(:gets).and_return('2')
+      player.turn(board)
+      expect(board.table[5][1]).to eql("\u26AA")
+    end
+  end
 end

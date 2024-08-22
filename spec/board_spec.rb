@@ -1,4 +1,5 @@
 require_relative '../lib/board'
+require_relative '../lib/player'
 
 describe Board do
   ## Evaluate the instance variables and the methods at first when the table is created
@@ -102,6 +103,75 @@ describe Board do
                        [1, 1, 0, 1, 0, 0, 1]]
         expect(board.full?).to eql(true)
       end
+    end
+  end
+
+  describe '#check_four_in_row' do
+    let(:player) { Player.new('andres', "\u26AA") }
+    let(:board) { described_class.new }
+    before do
+      board.insert(0, player.piece)
+      board.insert(1, player.piece)
+      board.insert(2, player.piece)
+      board.insert(3, player.piece)
+    end
+    it 'return true if there is 4 in row' do
+      expect(board.check_four_in_row(player.piece)).to be true
+    end
+
+    it 'return false if there is not 4 in row' do
+      board.table[5][3] = nil
+      board.table[5][4] = player.piece
+      expect(board.check_four_in_row(player.piece)).to be false
+    end
+  end
+
+  describe '#check_four_in_column' do
+    let(:player) { Player.new('andres', "\u26AA") }
+    let(:board) { described_class.new }
+    before do
+      board.insert(2, player.piece)
+      board.insert(2, player.piece)
+      board.insert(2, player.piece)
+      board.insert(2, player.piece)
+    end
+
+    it 'return true if there is 4 in column' do
+      expect(board.check_four_in_column(player.piece)).to be true
+    end
+
+    it 'return false if there isnt 4 in column' do
+      board.table[4][2] = nil
+      expect(board.check_four_in_column(player.piece)).to be false
+    end
+  end
+
+  describe '#check_four_in_diagonal' do
+    let(:player) { Player.new('andres', "\u26AA") }
+    let(:board) { described_class.new }
+    before do
+      board.table[0][0] = "\u26AA"
+      board.table[1][1] = "\u26AA"
+      board.table[2][2] = "\u26AA"
+      board.table[3][3] = "\u26AA"
+      board.table[5][0] = "\u26AA"
+      board.table[4][1] = "\u26AA"
+      board.table[3][2] = "\u26AA"
+      board.table[2][3] = "\u26AA"
+    end
+
+    it 'return true if there is 4 in diagonal' do
+      expect(board.check_four_in_diagonal(player.piece)).to be true
+    end
+
+    it 'return true if there is 4 in anti-diagonal' do
+      expect(board.check_four_in_diagonal(player.piece)).to be true
+    end
+
+    it 'return false if there isnt 4 in any diagonal' do
+      board.table[3][3] = nil
+      board.table[2][3] = nil
+      expect(board.check_four_in_diagonal(player.piece)).to be false
     end
   end
 end
