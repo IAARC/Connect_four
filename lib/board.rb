@@ -102,4 +102,8 @@ class Board
 
     diagonals
   end
+
+  def full_column?(column_index)
+    true unless @table[0][column_index].nil?
+  end
 end
