@@ -31,8 +31,13 @@ class Game
       break if win?(@player1) || win?(@player2)
 
     end
-    @player1.win if win?(@player1)
-    @player2.win if win?(@player2)
+    if win?(@player1)
+      @player1.win
+    elsif win > (@player2)
+      @player2.win
+    else
+      puts 'This is a draw!'
+    end
     @board.print_board
   end
 
