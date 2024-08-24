@@ -33,7 +33,7 @@ class Game
     end
     if win?(@player1)
       @player1.win
-    elsif win > (@player2)
+    elsif win?(@player2)
       @player2.win
     else
       puts 'This is a draw!'

@@ -2,7 +2,6 @@ require_relative '../lib/board'
 require_relative '../lib/player'
 
 describe Board do
-  ## Evaluate the instance variables and the methods at first when the table is created
   context 'initiated the board, board empty and no move' do
     subject(:board) { described_class.new }
     describe '#initialize' do
